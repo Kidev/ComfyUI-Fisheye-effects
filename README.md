@@ -22,6 +22,9 @@ Provides tools for applying and removing fisheye lens effects from images.
    ```bash
    cd ComfyUI-Fisheye-effects
    python install.py
+   # Or using venv of ComfyUI
+   source ../../.venv/bin/activate
+   pip install -r requirements.txt
    ```
 
 3. Restart ComfyUI
