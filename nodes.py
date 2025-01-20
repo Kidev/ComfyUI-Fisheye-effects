@@ -47,32 +47,29 @@ class FisheyeNode(FisheyeBase):
         yd = j - ycenter
         rd = hypot(xd, yd)
 
+        rn = rd / (dim / 2)
+
+        theta = rn * (self.fov * pi / 360)
+
         # See https://en.wikipedia.org/wiki/Fisheye_lens
         if self.mapping == "equidistant":
-            ifoc = dim * pi / (self.fov * 180)
-            rr = rd * ifoc
-
+            r = theta
         elif self.mapping == "equisolid":
-            ifoc = 2.0 * sin(self.fov * pi / 720)
-            rr = 2 * arctan(rd * ifoc / dim)
-
+            r = 2 * sin(theta / 2)
         elif self.mapping == "orthographic":
-            ifoc = 2.0 * sin(self.fov * pi / 360)
-            rr = arctan(rd * ifoc / dim)
-
+            r = sin(theta)
         elif self.mapping == "stereographic":
-            ifoc = 2.0 * tan(self.fov * pi / 720)
-            rr = 2 * arctan(rd * ifoc / (2 * dim))
+            r = 2 * tan(theta / 2)
+
+        r = r * (dim / 2)
 
         rdmask = rd != 0
+
         xs = xd.astype(np.float32).copy()
         ys = yd.astype(np.float32).copy()
 
-        ofoc = dim / (2 * tan(self.pfov * pi / 360))
-        factor = ofoc * tan(rr)
-
-        xs[rdmask] = (factor[rdmask] / rd[rdmask]) * xd[rdmask] + xcenter
-        ys[rdmask] = (factor[rdmask] / rd[rdmask]) * yd[rdmask] + ycenter
+        xs[rdmask] = (r[rdmask] / rd[rdmask]) * xd[rdmask] + xcenter
+        ys[rdmask] = (r[rdmask] / rd[rdmask]) * yd[rdmask] + ycenter
 
         xs[~rdmask] = xcenter
         ys[~rdmask] = ycenter
