@@ -10,6 +10,9 @@ Provides tools for applying and removing fisheye lens effects from images.
 - Format options: fullframe and circular
 - Adjustable FOV and PFOV parameters
 
+### Tips
+- The `orthographic` mapping keeps the entirety of the image data, so going back and forth works well, see `examples/BackAndForth.json`
+
 ## Installation
 
 1. Clone this repository into your ComfyUI custom_nodes folder:

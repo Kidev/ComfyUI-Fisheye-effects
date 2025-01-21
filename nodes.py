@@ -25,6 +25,7 @@ class FisheyeBase:
         img_np = np.array(tensor).astype(np.float32) / 255.0
         return torch.from_numpy(img_np).unsqueeze(0)
 
+
 class FisheyeNode(FisheyeBase):
     @classmethod
     def INPUT_TYPES(cls):
@@ -33,8 +34,8 @@ class FisheyeNode(FisheyeBase):
                 "image": ("IMAGE",),
                 "mapping": (["equidistant", "equisolid", "orthographic", "stereographic"],),
                 "format": (["fullframe", "circular"],),
-                "fov": ("FLOAT", {"default": 180.0, "min": 0.0, "max": 360.0, "step": 0.1}),
-                "pfov": ("FLOAT", {"default": 120.0, "min": 0.0, "max": 360.0, "step": 0.1}),
+                "fov": ("FLOAT", {"default": 180.0, "min": 0.0, "max": 360.0, "step": 30.0}),
+                "pfov": ("FLOAT", {"default": 120.0, "min": 0.0, "max": 360.0, "step": 30.0}),
             },
         }
 
@@ -47,29 +48,30 @@ class FisheyeNode(FisheyeBase):
         yd = j - ycenter
         rd = hypot(xd, yd)
 
-        rn = rd / (dim / 2)
+        rmax = dim / 2 if self.format == "circular" else hypot(width / 2, height / 2)
 
-        theta = rn * (self.fov * pi / 360)
+        phiang = arctan(rd / rmax)
+        theta = phiang * self.pfov / (self.fov / 2)
 
-        # See https://en.wikipedia.org/wiki/Fisheye_lens
         if self.mapping == "equidistant":
-            r = theta
+            r = rmax * theta / (pi / 2)
         elif self.mapping == "equisolid":
-            r = 2 * sin(theta / 2)
+            r = 2 * rmax * sin(theta / 2)
         elif self.mapping == "orthographic":
-            r = sin(theta)
+            r = rmax * sin(theta)
         elif self.mapping == "stereographic":
-            r = 2 * tan(theta / 2)
-
-        r = r * (dim / 2)
+            r = 2 * rmax * tan(theta / 2)
 
         rdmask = rd != 0
-
         xs = xd.astype(np.float32).copy()
         ys = yd.astype(np.float32).copy()
 
-        xs[rdmask] = (r[rdmask] / rd[rdmask]) * xd[rdmask] + xcenter
-        ys[rdmask] = (r[rdmask] / rd[rdmask]) * yd[rdmask] + ycenter
+        scale = 1.0
+        if self.mapping == "equidistant":
+            scale = 1.5
+
+        xs[rdmask] = scale * (rd[rdmask] / r[rdmask]) * xd[rdmask] + xcenter
+        ys[rdmask] = scale * (rd[rdmask] / r[rdmask]) * yd[rdmask] + ycenter
 
         xs[~rdmask] = xcenter
         ys[~rdmask] = ycenter
@@ -108,8 +110,8 @@ class DefisheyeNode(FisheyeBase):
                 "image": ("IMAGE",),
                 "mapping": (["equidistant", "equisolid", "orthographic", "stereographic"],),
                 "format": (["fullframe", "circular"],),
-                "fov": ("FLOAT", {"default": 180.0, "min": 0.0, "max": 360.0, "step": 5.0}),
-                "pfov": ("FLOAT", {"default": 120.0, "min": 0.0, "max": 360.0, "step": 5.0}),
+                "fov": ("FLOAT", {"default": 180.0, "min": 0.0, "max": 360.0, "step": 30.0}),
+                "pfov": ("FLOAT", {"default": 120.0, "min": 0.0, "max": 360.0, "step": 30.0}),
             },
         }
 
