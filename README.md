@@ -17,6 +17,10 @@ Provides tools for applying and removing fisheye lens effects from images.
 
 ## Installation
 
+### Using ComfyUI Manager
+You can simply find and install this node from the "Custom Nodes Manager" inside the ComfyUI Manager menu
+
+### Manually
 1. Clone this repository into your ComfyUI custom_nodes folder:
    ```bash
    cd ComfyUI/custom_nodes
@@ -28,7 +32,7 @@ Provides tools for applying and removing fisheye lens effects from images.
    cd ComfyUI-Fisheye-effects
    python install.py
    # Or using venv of ComfyUI
-   source ../../.venv/bin/activate
+   source [venv]/bin/activate
    pip install -r requirements.txt
    ```
 
