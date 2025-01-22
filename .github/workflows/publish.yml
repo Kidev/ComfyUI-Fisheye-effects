@@ -1,12 +1,10 @@
 name: Publish to Comfy registry
 on:
-  workflow_dispatch:
   push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     branches:
       - main
-      - master
-    paths:
-      - "pyproject.toml"
 
 permissions:
   issues: write
@@ -15,7 +13,9 @@ jobs:
   publish-node:
     name: Publish Custom Node to registry
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'Kidev' }}
+    if: |
+      github.repository_owner == 'Kidev' &&
+      github.ref_name == format('v{0}', fromJson(fromJson(toJson(fromJson(readFile('pyproject.toml'))))['project']['version'])
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -24,5 +24,4 @@ jobs:
       - name: Publish Custom Node
         uses: Comfy-Org/publish-node-action@v1
         with:
-          ## Add your own personal access token to your Github Repository secrets and reference it here.
           personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
