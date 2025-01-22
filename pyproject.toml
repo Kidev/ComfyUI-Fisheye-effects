@@ -1,7 +1,7 @@
 [project]
-name = "fisheye-effects"
+name = "Fisheye effects"
 description = "Provides tools for applying and removing fisheye lens effects from images."
-version = "1.0.0"
+version = "0.0.1"
 license = {file = "LICENSE"}
 dependencies = ["numpy>=1.22.0", "opencv-python>=4.8.0", "Pillow>=9.5.0"]
 
@@ -10,6 +10,6 @@ Repository = "https://github.com/Kidev/ComfyUI-Fisheye-effects"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "kidev"
 DisplayName = "ComfyUI-Fisheye-effects"
 Icon = ""
