@@ -1,12 +1,10 @@
 name: Publish to Comfy registry
 on:
-  workflow_dispatch:
   push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
     branches:
       - main
-      - master
-    paths:
-      - "pyproject.toml"
 
 permissions:
   issues: write
@@ -15,14 +13,27 @@ jobs:
   publish-node:
     name: Publish Custom Node to registry
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'Kidev' }}
     steps:
       - name: Check out code
         uses: actions/checkout@v4
         with:
           submodules: true
+
+      - name: Get version from pyproject.toml
+        id: get_version
+        run: |
+          VERSION=$(grep '^version = ' pyproject.toml | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check version matches tag
+        if: |
+          github.repository_owner == 'Kidev' &&
+          github.ref_type == 'tag' &&
+          github.ref_name == format('v{0}', steps.get_version.outputs.version)
+        run: echo "Version matches tag, proceeding with publish"
+
       - name: Publish Custom Node
+        if: success()
         uses: Comfy-Org/publish-node-action@v1
         with:
-          ## Add your own personal access token to your Github Repository secrets and reference it here.
           personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
