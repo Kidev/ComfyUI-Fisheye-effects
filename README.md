@@ -2,6 +2,8 @@
 
 Provides tools for applying and removing fisheye lens effects from images.
 
+![Example](examples/CircularGrid.png)
+
 ## Features
 
 - FisheyeNode: Apply fisheye distortion to images

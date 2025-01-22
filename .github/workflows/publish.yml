@@ -10,30 +10,42 @@ permissions:
   issues: write
 
 jobs:
+  check-version:
+    name: Check version requirements
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'Kidev' && github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v') }}
+    outputs:
+      should_publish: ${{ steps.check.outputs.should_publish }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Compare versions
+        id: check
+        run: |
+          VERSION=$(grep '^version = ' pyproject.toml | cut -d'"' -f2)
+          TAG=${GITHUB_REF#refs/tags/v}
+          if [ "$TAG" = "$VERSION" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+            echo "Versions match ($VERSION), will proceed with publish"
+          else
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+            echo "Tag version ($TAG) does not match pyproject.toml version ($VERSION), skipping publish"
+          fi
+
   publish-node:
     name: Publish Custom Node to registry
+    needs: check-version
+    if: ${{ needs.check-version.outputs.should_publish == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
         with:
           submodules: true
-
-      - name: Get version from pyproject.toml
-        id: get_version
-        run: |
-          VERSION=$(grep '^version = ' pyproject.toml | cut -d'"' -f2)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Check version matches tag
-        if: |
-          github.repository_owner == 'Kidev' &&
-          github.ref_type == 'tag' &&
-          github.ref_name == format('v{0}', steps.get_version.outputs.version)
-        run: echo "Version matches tag, proceeding with publish"
+          fetch-tags: true
 
       - name: Publish Custom Node
-        if: success()
         uses: Comfy-Org/publish-node-action@v1
         with:
           personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
