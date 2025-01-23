@@ -54,4 +54,5 @@ The nodes will appear in the node menu under the "image/processing" category:
 
 ## Example Workflows
 
-Check the examples folder for sample workflows demonstrating various use cases.
+Check the examples folder for sample [workflows](examples/BackAndForth.json) demonstrating various use cases.
+![Example](examples/BackAndForthFullframe.png)

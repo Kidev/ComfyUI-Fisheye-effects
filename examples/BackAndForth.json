@@ -3,124 +3,11 @@
   "last_link_id": 6,
   "nodes": [
     {
-      "id": 4,
-      "type": "PreviewImage",
-      "pos": [
-        140,
-        -70
-      ],
-      "size": [
-        210,
-        246
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 4
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewImage",
-        "enableTabs": false,
-        "tabWidth": 65,
-        "tabXOffset": 10,
-        "hasSecondTab": false,
-        "secondTabText": "Send Back",
-        "secondTabOffset": 80,
-        "secondTabWidth": 65
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 5,
-      "type": "PreviewImage",
-      "pos": [
-        620,
-        -490
-      ],
-      "size": [
-        430,
-        430
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 3
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewImage",
-        "enableTabs": false,
-        "tabWidth": 65,
-        "tabXOffset": 10,
-        "hasSecondTab": false,
-        "secondTabText": "Send Back",
-        "secondTabOffset": 80,
-        "secondTabWidth": 65
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 3,
-      "type": "LoadImage",
-      "pos": [
-        -700,
-        -580
-      ],
-      "size": [
-        470,
-        450
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            1
-          ],
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage",
-        "enableTabs": false,
-        "tabWidth": 65,
-        "tabXOffset": 10,
-        "hasSecondTab": false,
-        "secondTabText": "Send Back",
-        "secondTabOffset": 80,
-        "secondTabWidth": 65
-      },
-      "widgets_values": [
-        "fisheye-image.jpg",
-        "image"
-      ]
-    },
-    {
       "id": 2,
       "type": "Defisheye",
       "pos": [
-        -170,
-        -280
+        -350,
+        -790
       ],
       "size": [
         315,
@@ -165,15 +52,128 @@
       ]
     },
     {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [
+        -200,
+        -520
+      ],
+      "size": [
+        490,
+        360
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 3,
+      "type": "LoadImage",
+      "pos": [
+        -730,
+        -580
+      ],
+      "size": [
+        520,
+        420
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": [
+        "balloons.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [
+        310,
+        -520
+      ],
+      "size": [
+        500,
+        360
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage",
+        "enableTabs": false,
+        "tabWidth": 65,
+        "tabXOffset": 10,
+        "hasSecondTab": false,
+        "secondTabText": "Send Back",
+        "secondTabOffset": 80,
+        "secondTabWidth": 65
+      },
+      "widgets_values": []
+    },
+    {
       "id": 1,
       "type": "Fisheye",
       "pos": [
-        240,
-        -340
+        360,
+        -790
       ],
       "size": [
         315,
-        130
+        154
       ],
       "flags": {},
       "order": 2,
@@ -209,7 +209,8 @@
         "orthographic",
         "fullframe",
         180,
-        120
+        120,
+        true
       ]
     }
   ],
@@ -251,15 +252,15 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.9229599817706413,
+      "scale": 0.620921323059155,
       "offset": [
-        1037.145963590657,
-        949.7047748071493
+        691.5687944020302,
+        1329.188024627164
       ]
     },
     "node_versions": {
-      "comfy-core": "0.3.12",
-      "ComfyUI-Fisheye-effects": "0.0.1"
+      "ComfyUI-Fisheye-effects": "0.0.3",
+      "comfy-core": "0.3.12"
     },
     "ue_links": [],
     "VHS_latentpreview": true,

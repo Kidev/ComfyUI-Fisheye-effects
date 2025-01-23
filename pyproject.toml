@@ -1,7 +1,7 @@
 [project]
 name = "fisheye-effects"
 description = "Provides tools for applying and removing fisheye lens effects from images."
-version = "0.0.2"
+version = "0.0.3"
 license = {file = "LICENSE"}
 dependencies = ["numpy>=1.22.0", "opencv-python>=4.8.0", "Pillow>=9.5.0"]
 
