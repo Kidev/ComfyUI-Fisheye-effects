@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-import pkg_resources
+import importlib.metadata
 
 def install_requirements():
     requirements_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "requirements.txt")
@@ -9,7 +9,7 @@ def install_requirements():
     with open(requirements_path) as f:
         required = f.read().splitlines()
 
-    installed = {pkg.key for pkg in pkg_resources.working_set}
+    installed = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     missing = [pkg for pkg in required if pkg.split('>=')[0] not in installed]
 
     if missing:
