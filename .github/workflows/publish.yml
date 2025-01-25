@@ -36,7 +36,7 @@ jobs:
   publish-node:
     name: Publish Custom Node to registry
     needs: check-version
-    if: ${{ needs.check-version.outputs.should_publish == 'true' }}
+    if: ${{ needs.check-version.outputs.should_publish == 'true' && github.repository_owner == 'Kidev' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
