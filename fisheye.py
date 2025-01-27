@@ -1,7 +1,9 @@
-import numpy as np
 import cv2
-from numpy import arange, sqrt, arctan, sin, tan, meshgrid, pi, hypot
+import numpy as np
+from numpy import arange, arctan, hypot, meshgrid, pi, sin, sqrt, tan
+
 from .base import FisheyeBase
+
 
 class FisheyeNode(FisheyeBase):
     @classmethod
@@ -9,11 +11,27 @@ class FisheyeNode(FisheyeBase):
         return {
             "required": {
                 "image": ("IMAGE",),
-                "mapping": (["equidistant", "equisolid", "orthographic", "stereographic"],),
+                "mapping": (
+                    ["equidistant", "equisolid", "orthographic", "stereographic"],
+                ),
                 "format": (["fullframe", "circular"],),
-                "fov": ("FLOAT", {"default": 180.0, "min": 0.0, "max": 360.0, "step": 10.0}),
-                "pfov": ("FLOAT", {"default": 120.0, "min": 0.0, "max": 360.0, "step": 10.0}),
+                "fov": (
+                    "FLOAT",
+                    {"default": 180.0, "min": 0.0, "max": 360.0, "step": 10.0},
+                ),
+                "pfov": (
+                    "FLOAT",
+                    {"default": 120.0, "min": 0.0, "max": 360.0, "step": 10.0},
+                ),
                 "entire_image": ("BOOLEAN", {"default": False}),
+                "wcenter": (
+                    "FLOAT",
+                    {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.1},
+                ),
+                "hcenter": (
+                    "FLOAT",
+                    {"default": 0.5, "min": 0.0, "max": 1.0, "step": 0.1},
+                ),
             },
         }
 
@@ -88,20 +106,22 @@ class FisheyeNode(FisheyeBase):
 
         return xs, ys
 
-    def apply_fisheye(self, image, mapping, format, fov, pfov, entire_image):
+    def apply_fisheye(
+        self, image, mapping, format, fov, pfov, entire_image, wcenter, hcenter
+    ):
         self.setup_parameters(fov, pfov, mapping, format)
         self.entire_image = entire_image
 
         image_np = self.process_image_tensor(image)
 
         height, width = image_np.shape[:2]
-        xcenter = width // 2
-        ycenter = height // 2
+        xcenter = width * wcenter
+        ycenter = height * hcenter
 
         if format == "circular":
             dim = min(width, height)
         else:  # fullframe
-            dim = sqrt(width ** 2 + height ** 2)
+            dim = sqrt(width**2 + height**2)
 
         i = arange(width)
         j = arange(height)

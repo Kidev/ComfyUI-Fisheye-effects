@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 
+
 class FisheyeBase:
     def setup_parameters(self, fov, pfov, mapping, format):
         self.fov = fov

@@ -11,9 +11,8 @@ Provides tools for applying and removing fisheye lens effects from images.
 - Multiple distortion mappings: equidistant, equisolid, orthographic, stereographic
 - Format options: fullframe and circular
 - Adjustable FOV and PFOV parameters
-
-### Tips
-- The `orthographic` mapping keeps the entirety of the image data, so going back and forth works well, see `examples/BackAndForth.json`
+- Adjustable center
+- Option to always display the full image uncropped
 
 ## Installation
 
@@ -47,12 +46,15 @@ The nodes will appear in the node menu under the "image/processing" category:
 ### Parameters
 
 - image: Input image
-- mapping: Distortion mapping mode (equidistant, equisolid, orthographic, stereographic)
-- format: Output format (fullframe, circular)
-- fov: Field of view in degrees (0-360)
-- pfov: Perspective field of view in degrees (0-360)
+- mapping: Distortion mapping mode (`equidistant`, `equisolid`, `orthographic`, `stereographic`)
+- format: Output format (`fullframe`, `circular`)
+- fov: Field of view in degrees (`0.0`-`360.0`)
+- pfov: Perspective field of view in degrees (`0.0`-`360.0`)
+- entire_image: Always show the full image uncropped not matter the FOV/PFOV values (`True`-`False`)
+- wcenter: Horizontal center of the effect (`0.0`-`1.0`)
+- hcenter: Vertical center of the effect (`0.0`-`1.0`)
 
-## Example Workflows
+## Examples
 
-Check the examples folder for sample [workflows](examples/BackAndForth.json) demonstrating various use cases.
+Check the examples folder for a sample [workflow](examples/BackAndForth.json) and images demonstrating various use cases.
 ![Example](examples/BackAndForthFullframe.png)
